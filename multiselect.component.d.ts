@@ -1,29 +1,40 @@
-import { EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { OnInit, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { ListItem, IDropdownSettings } from './multiselect.model';
+import { ListItem } from './multiselect.model';
+export interface DropdownSettings {
+    singleSelection: Boolean;
+    idField?: string;
+    textField?: string;
+    enableCheckAll: Boolean;
+    selectAllText: String;
+    unSelectAllText: String;
+    allowSearchFilter?: Boolean;
+    maxHeight?: Number;
+    itemsShowLimit: Number;
+    limitSelection?: Number;
+    searchPlaceholderText?: String;
+    closeDropDownOnSelection?: Boolean;
+}
 export declare const DROPDOWN_CONTROL_VALUE_ACCESSOR: any;
-export declare class MultiSelectComponent implements ControlValueAccessor {
-    private cdr;
-    _settings: IDropdownSettings;
+export declare class MultiSelectComponent implements OnInit, ControlValueAccessor {
+    _settings: DropdownSettings;
     _data: Array<ListItem>;
     selectedItems: Array<ListItem>;
     isDropdownOpen: boolean;
-    _placeholder: string;
     filter: ListItem;
-    defaultSettings: IDropdownSettings;
+    defaultSettings: DropdownSettings;
     placeholder: string;
     disabled: boolean;
-    settings: IDropdownSettings;
+    settings: DropdownSettings;
     data: Array<any>;
-    onFilterChange: EventEmitter<ListItem>;
     onSelect: EventEmitter<ListItem>;
     onDeSelect: EventEmitter<ListItem>;
     onSelectAll: EventEmitter<Array<ListItem>>;
     onDeSelectAll: EventEmitter<Array<ListItem>>;
     private onTouchedCallback;
     private onChangeCallback;
-    onFilterTextChange($event: any): void;
-    constructor(cdr: ChangeDetectorRef);
+    constructor();
+    ngOnInit(): void;
     onItemClick($event: any, item: ListItem): boolean;
     writeValue(value: any): void;
     registerOnChange(fn: any): void;
@@ -33,8 +44,7 @@ export declare class MultiSelectComponent implements ControlValueAccessor {
     isSelected(clickedItem: ListItem): boolean;
     isLimitSelectionReached(): boolean;
     isAllItemsSelected(): boolean;
-    showButton(): boolean;
-    itemShowRemaining(): number;
+    itemShowRemaining(): Number;
     addSelected(item: ListItem): void;
     removeSelected(itemSel: ListItem): void;
     emittedValue(val: any): any;
